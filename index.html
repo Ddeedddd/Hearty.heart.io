@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Character Maker</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: #fff;
+            background-size: 200% 200%;
+            animation: gradient 5s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        header {
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            border-bottom: 2px solid #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        .controls {
+            margin: 20px 0;
+            color: #fff;
+        }
+        .controls label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .controls input {
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 8px;
+            background: #222;
+            color: #fff;
+        }
+        #heart {
+            width: 120px;
+            height: 108px;
+            margin: 20px;
+            fill: #ff4081;
+            transition: fill 0.5s ease;
+        }
+        .controls button {
+            background: linear-gradient(135deg, #ff4081, #ff6e6e);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s, transform 0.3s;
+        }
+        .controls button:hover {
+            background: linear-gradient(135deg, #ff6e6e, #ff4081);
+            transform: scale(1.05);
+        }
+        .controls button:active {
+            transform: scale(0.95);
+        }
+        footer {
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            text-align: center;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Heart Character Maker</h1>
+    </header>
+    <div class="container">
+        <svg id="heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <div class="controls">
+            <label for="color">Heart Color:</label>
+            <input type="color" id="color" value="#ff4081">
+            
+            <label for="size">Heart Size:</label>
+            <input type="range" id="size" min="50" max="200" value="120">
+            <span id="sizeValue">120px</span>
+            
+            <button id="rgbButton">RGB Mode</button>
+            <button id="themeButton">Change Theme</button>
+            <button id="rgbThemeButton">RGB Theme</button>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Heart Character Maker. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const heart = document.getElementById('heart');
+        const colorInput = document.getElementById('color');
+        const sizeInput = document.getElementById('size');
+        const sizeValue = document.getElementById('sizeValue');
+        const rgbButton = document.getElementById('rgbButton');
+        const themeButton = document.getElementById('themeButton');
+        const rgbThemeButton = document.getElementById('rgbThemeButton');
+        
+        let rgbMode = false;
+        let rgbInterval;
+        let rgbThemeInterval;
+
+        // Change heart color
+        colorInput.addEventListener('input', function(event) {
+            if (!rgbMode) {
+                heart.style.fill = event.target.value;
+            }
+        });
+
+        // Change heart size
+        sizeInput.addEventListener('input', function(event) {
+            const size = event.target.value;
+            heart.style.width = size + 'px';
+            heart.style.height = (size * 0.9) + 'px';
+            sizeValue.textContent = size + 'px';
+        });
+
+        // Toggle RGB mode
+        rgbButton.addEventListener('click', function() {
+            rgbMode = !rgbMode;
+            if (rgbMode) {
+                rgbButton.textContent = 'Stop RGB Mode';
+                rgbInterval = setInterval(() => {
+                    const r = Math.floor(Math.random() * 256);
+                    const g = Math.floor(Math.random() * 256);
+                    const b = Math.floor(Math.random() * 256);
+                    heart.style.fill = `rgb(, , )`;
+                }, 100);
+            } else {
+                rgbButton.textContent = 'RGB Mode';
+                clearInterval(rgbInterval);
+                heart.style.fill = colorInput.value;
+            }
+        });
+
+        // Change theme color
+        themeButton.addEventListener('click', function() {
+            const colors = ['#f0f2f5', '#ffebee', '#e3f2fd', '#e8f5e9', '#fff3e0'];
+            document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
+        });
+
+        // RGB Theme button
+        rgbThemeButton.addEventListener('click', function() {
+            if (rgbThemeInterval) {
+                clearInterval(rgbThemeInterval);
+                rgbThemeButton.textContent = 'RGB Theme';
+                document.body.style.background = 'linear-gradient(135deg, #00d2ff, #3a7bd5)'; // reset to default
+                rgbThemeInterval = null;
+                return;
+            }
+            
+            rgbThemeButton.textContent = 'Stop RGB Theme';
+            rgbThemeInterval = setInterval(() => {
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+                document.body.style.background = `linear-gradient(135deg, rgb(, , ), rgb(, , ))`;
+            }, 100);
+        });
+    </script>
+</body>
+</html>
