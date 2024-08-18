@@ -5,26 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heart Character Maker</title>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
+            margin: 0;
             background: linear-gradient(135deg, #00d2ff, #3a7bd5);
             color: #fff;
-            background-size: 200% 200%;
-            animation: gradient 5s ease infinite;
-        }
-        @keyframes gradient {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
+            overflow: hidden;
+            transition: background 0.5s ease;
         }
         header {
             width: 100%;
@@ -34,9 +26,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             color: #fff;
             border-bottom: 2px solid #fff;
-            position: absolute;
-            top: 0;
-            left: 0;
         }
         .container {
             text-align: center;
@@ -46,8 +35,6 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
             max-width: 500px;
             width: 100%;
-            position: relative;
-            z-index: 1;
         }
         .controls {
             margin: 20px 0;
@@ -93,12 +80,13 @@
             transform: scale(0.95);
         }
         footer {
+            margin-top: 20px;
             padding: 10px;
             background: rgba(0, 0, 0, 0.5);
             color: #fff;
             text-align: center;
             width: 100%;
-            position: absolute;
+            position: fixed;
             bottom: 0;
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
         }
@@ -166,7 +154,7 @@
                     const r = Math.floor(Math.random() * 256);
                     const g = Math.floor(Math.random() * 256);
                     const b = Math.floor(Math.random() * 256);
-                    heart.style.fill = `rgb(, , )`;
+                    heart.style.fill = `rgb(${r}, ${g}, ${b})`;
                 }, 100);
             } else {
                 rgbButton.textContent = 'RGB Mode';
@@ -196,7 +184,7 @@
                 const r = Math.floor(Math.random() * 256);
                 const g = Math.floor(Math.random() * 256);
                 const b = Math.floor(Math.random() * 256);
-                document.body.style.background = `linear-gradient(135deg, rgb(, , ), rgb(, , ))`;
+                document.body.style.background = `linear-gradient(135deg, rgb(${r}, ${g}, ${b}), rgb(${r}, ${g}, ${b}))`;
             }, 100);
         });
     </script>
